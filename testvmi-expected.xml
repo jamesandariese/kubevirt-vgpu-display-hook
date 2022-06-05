@@ -1,0 +1,121 @@
+<domain type="kvm" xmlns:qemu="http://libvirt.org/schemas/domain/qemu/1.0">
+	<name>virts_win11</name>
+	<memory unit="b">8092000000</memory>
+	<os>
+		<type arch="x86_64" machine="q35">hvm</type>
+		<smbios mode="sysinfo"></smbios>
+		<loader readonly="yes" secure="no" type="pflash">/usr/share/OVMF/OVMF_CODE.secboot.fd</loader>
+		<nvram template="/usr/share/OVMF/OVMF_VARS.fd">/tmp/virts_win11</nvram>
+	</os>
+	<sysinfo type="smbios">
+		<system>
+			<entry name="uuid">ca6a6bfa-9f48-5ed1-b2a4-ce5c32e042c4</entry>
+			<entry name="manufacturer">KubeVirt</entry>
+			<entry name="family">KubeVirt</entry>
+			<entry name="product">None</entry>
+			<entry name="sku"></entry>
+			<entry name="version"></entry>
+		</system>
+		<bios></bios>
+		<baseBoard></baseBoard>
+		<chassis></chassis>
+	</sysinfo>
+	<devices>
+		<interface type="ethernet">
+			<source></source>
+			<target dev="tap0" managed="no"></target>
+			<model type="virtio-non-transitional"></model>
+			<mac address="66:89:3a:ef:ff:f0"></mac>
+			<mtu size="1450"></mtu>
+			<alias name="ua-default"></alias>
+			<rom enabled="no"></rom>
+		</interface>
+		<interface type="ethernet">
+			<source></source>
+			<target dev="tap1" managed="no"></target>
+			<model type="virtio-non-transitional"></model>
+			<mac address="32:d8:64:c6:70:c3"></mac>
+			<mtu size="1500"></mtu>
+			<alias name="ua-eth0"></alias>
+			<rom enabled="no"></rom>
+		</interface>
+		<channel type="unix">
+			<target name="org.qemu.guest_agent.0" type="virtio"></target>
+		</channel>
+		<hostdev type="mdev" managed="" mode="subsystem" model="vfio-pci" display="on" ramfb="on">
+			<source>
+				<address type="" bus="" uuid="ec718522-dfb8-11ec-8808-23234ffb60b1"></address>
+			</source>
+			<alias name="ua-gpu-GRID_P40_1Q"></alias>
+		</hostdev>
+		<controller type="usb" index="0" model="qemu-xhci"></controller>
+		<controller type="scsi" index="0" model="virtio-non-transitional"></controller>
+		<controller type="virtio-serial" index="0" model="virtio-non-transitional"></controller>
+		<video>
+			<model type="none" heads="1" vram="16384"></model>
+		</video>
+		<graphics type="vnc">
+			<listen type="socket" socket="/var/run/kubevirt-private/3494761e-7213-445c-904d-f83ae8bb77cf/virt-vnc"></listen>
+		</graphics>
+		<memballoon model="virtio-non-transitional">
+			<stats period="10"></stats>
+		</memballoon>
+		<disk device="disk" type="block" model="virtio-non-transitional">
+			<source dev="/dev/win11-c" name="win11-c"></source>
+			<target bus="virtio" dev="vda"></target>
+			<driver cache="none" error_policy="stop" io="native" name="qemu" type="raw" discard="unmap"></driver>
+			<alias name="ua-win11-c"></alias>
+			<boot order="1"></boot>
+			<filesystemOverhead>0</filesystemOverhead>
+			<capacity>512174850048</capacity>
+		</disk>
+		<disk device="disk" type="block" model="virtio-non-transitional">
+			<source dev="/dev/win11-j0" name="win11-j0"></source>
+			<target bus="virtio" dev="vdb"></target>
+			<driver cache="none" error_policy="stop" io="native" name="qemu" type="raw" discard="unmap"></driver>
+			<alias name="ua-win11-j0"></alias>
+			<filesystemOverhead>0</filesystemOverhead>
+			<capacity>1000727379968</capacity>
+		</disk>
+		<disk device="disk" type="block" model="virtio-non-transitional">
+			<source dev="/dev/win11-j1" name="win11-j1"></source>
+			<target bus="virtio" dev="vdc"></target>
+			<driver cache="none" error_policy="stop" io="native" name="qemu" type="raw" discard="unmap"></driver>
+			<alias name="ua-win11-j1"></alias>
+			<filesystemOverhead>0</filesystemOverhead>
+			<capacity>1000727379968</capacity>
+		</disk>
+		<input type="tablet" bus="usb">
+			<alias name="ua-tablet0"></alias>
+		</input>
+		<serial type="unix">
+			<target port="0"></target>
+			<source mode="bind" path="/var/run/kubevirt-private/3494761e-7213-445c-904d-f83ae8bb77cf/virt-serial0"></source>
+		</serial>
+		<console type="pty">
+			<target type="serial" port="0"></target>
+		</console>
+	</devices>
+	<metadata>
+		<kubevirt xmlns="http://kubevirt.io">
+			<uid>3494761e-7213-445c-904d-f83ae8bb77cf</uid>
+			<graceperiod>
+				<deletionGracePeriodSeconds>30</deletionGracePeriodSeconds>
+			</graceperiod>
+		</kubevirt>
+	</metadata>
+	<features>
+		<acpi></acpi>
+	</features>
+	<cpu mode="host-model">
+		<topology sockets="1" cores="6" threads="1"></topology>
+	</cpu>
+	<vcpu placement="static">6</vcpu>
+	<iothreads>1</iothreads>
+  <qemu:commandline>
+    <qemu:arg value="-set" />
+    <qemu:arg value="device.ua-gpu-GRID_P40_1Q.x-pci-vendor-id=0x10de" />
+    <qemu:arg value="-set" />
+    <qemu:arg value="device.ua-gpu-GRID_P40_1Q.x-pci-device-id=0x1c31" />
+  </qemu:commandline>
+</domain>

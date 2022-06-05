@@ -1,0 +1,74 @@
+apiVersion: kubevirt.io/v1alpha3
+kind: VirtualMachine
+metadata:
+  namespace: virts
+  name: win11
+spec:
+  runStrategy: Manual
+  template:
+    metadata:
+      annotations:
+        hooks.kubevirt.io/hookSidecars: '[{"args": [], "image": "docker.io/jamesandariese/kubevirt-hook-gpukit:latest"}]'
+        # a GPU can have its vendor and device id replaced
+        gpu-pci-id.kubevirt.exa.fi/ua-gpu-GOOD_GPU: "1234:5678"
+        # the sub-device-id can also be replaced.  the vendor id will be reused for sub-vendor-id
+        gpu-pci-id.kubevirt.exa.fi/ua-gpu-BETTER_GPU: "1234:5678:9abc"
+        # or vend:devc:subv:subd can be used for all four
+        gpu-pci-id.kubevirt.exa.fi/ua-gpu-BEST_GPU: "1234:5678:9abc:def0"
+        # alternatively, you may use the short version if you only have one display or one model.
+        # this will replace any display="on" hostdev's pci id
+        gpu-pci-id.kubevirt.exa.fi: "1234:5678"
+        # you may find these values by getting the "name" from spec.domain.devices.gpus[].name with ua-gpu- prepended.
+    spec:
+      terminationGracePeriodSeconds: 30
+      domain:
+        cpu:
+          cores: 6
+          threads: 1
+          sockets: 1
+        firmware:
+          bootloader:
+            efi:
+              secureBoot: false
+        resources:
+          requests:
+            memory: 8092M
+        devices:
+          inputs:
+          # you'll probably want a tablet since it's not included by default.
+          - name: tablet0
+            type: tablet
+          gpus:
+          - deviceName: exa.fi/BEST_GPU
+            # I've chosen BEST_GPU!
+            # it will show up in the OS as 1234:5678, subdev 9abc:def0
+            name: BEST_GPU
+            virtualGPUOptions:
+              display:
+                # display _must_ be enabled for support from gpukit
+                enabled: true
+                ramFB:
+                  enabled: true
+          disks:
+          - name: win11-c
+            disk:
+              bus: virtio
+            bootOrder: 1
+          interfaces:
+          - name: default
+            bridge: {}
+          - name: eth0
+            bridge: {}
+      volumes:
+      - name: win11-c
+        persistentVolumeClaim:
+          claimName: win11-c
+      networks:
+      - name: eth0
+        multus:
+          # this bridge is premade on the system and includes the HV's LAN eth
+          # this then bridges with it exposing your pod to the LAN.
+          # useful if you need a LAN IP!  just DHCP and go.
+          networkName: br0
+      - name: default
+        pod: {} # Stock pod network

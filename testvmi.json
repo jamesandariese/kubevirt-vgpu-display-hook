@@ -1,0 +1,343 @@
+{
+  "metadata": {
+    "name": "win11",
+    "namespace": "virts",
+    "uid": "3494761e-7213-445c-904d-f83ae8bb77cf",
+    "resourceVersion": "2163973",
+    "generation": 6,
+    "creationTimestamp": "2022-06-03T14:29:23Z",
+    "labels": {
+      "kubevirt.io/nodeName": "chimecho"
+    },
+    "annotations": {
+      "gpu-pci-id.kubevirt.exa.fi/ua-gpu-GRID_P40_1Q": "10de:1c31",
+      "hooks.kubevirt.io/hookSidecars": "[{\"args\": [], \"image\": \"docker.io/jamesandariese/matoes:67c93fe2-e349-11ec-8ea8-7bafc6edb32d\"}]",
+      "kubevirt.io/latest-observed-api-version": "v1",
+      "kubevirt.io/storage-observed-api-version": "v1alpha3"
+    },
+    "ownerReferences": [
+      {
+        "apiVersion": "kubevirt.io/v1",
+        "kind": "VirtualMachine",
+        "name": "win11",
+        "uid": "ba6dede7-5f43-433e-b0ba-8cfb571d99d1",
+        "controller": true,
+        "blockOwnerDeletion": true
+      }
+    ],
+    "finalizers": [
+      "kubevirt.io/virtualMachineControllerFinalize",
+      "foregroundDeleteVirtualMachine"
+    ],
+    "managedFields": [
+      {
+        "manager": "Go-http-client",
+        "operation": "Update",
+        "apiVersion": "kubevirt.io/v1alpha3",
+        "time": "2022-06-03T14:29:28Z",
+        "fieldsType": "FieldsV1",
+        "fieldsV1": {
+          "f:metadata": {
+            "f:annotations": {
+              ".": {},
+              "f:gpu-pci-id.kubevirt.exa.fi/ua-gpu-GRID_P40_1Q": {},
+              "f:hooks.kubevirt.io/hookSidecars": {},
+              "f:kubevirt.io/latest-observed-api-version": {},
+              "f:kubevirt.io/storage-observed-api-version": {}
+            },
+            "f:finalizers": {
+              ".": {},
+              "v:\"kubevirt.io/virtualMachineControllerFinalize\"": {}
+            },
+            "f:labels": {
+              ".": {},
+              "f:kubevirt.io/nodeName": {}
+            },
+            "f:ownerReferences": {
+              ".": {},
+              "k:{\"uid\":\"ba6dede7-5f43-433e-b0ba-8cfb571d99d1\"}": {}
+            }
+          },
+          "f:spec": {
+            ".": {},
+            "f:domain": {
+              ".": {},
+              "f:cpu": {
+                ".": {},
+                "f:cores": {},
+                "f:sockets": {},
+                "f:threads": {}
+              },
+              "f:devices": {
+                ".": {},
+                "f:disks": {},
+                "f:gpus": {},
+                "f:inputs": {},
+                "f:interfaces": {}
+              },
+              "f:firmware": {
+                ".": {},
+                "f:bootloader": {
+                  ".": {},
+                  "f:efi": {
+                    ".": {},
+                    "f:secureBoot": {}
+                  }
+                },
+                "f:uuid": {}
+              },
+              "f:machine": {
+                ".": {},
+                "f:type": {}
+              },
+              "f:resources": {
+                ".": {},
+                "f:requests": {
+                  ".": {},
+                  "f:memory": {}
+                }
+              }
+            },
+            "f:networks": {},
+            "f:terminationGracePeriodSeconds": {},
+            "f:volumes": {}
+          },
+          "f:status": {
+            ".": {},
+            "f:activePods": {
+              ".": {},
+              "f:6a515c57-ad5f-4173-bdb0-3fd96f4d829c": {}
+            },
+            "f:conditions": {},
+            "f:guestOSInfo": {},
+            "f:migrationMethod": {},
+            "f:migrationTransport": {},
+            "f:nodeName": {},
+            "f:phase": {},
+            "f:phaseTransitionTimestamps": {},
+            "f:qosClass": {},
+            "f:runtimeUser": {},
+            "f:virtualMachineRevisionName": {},
+            "f:volumeStatus": {}
+          }
+        }
+      }
+    ]
+  },
+  "spec": {
+    "domain": {
+      "resources": {
+        "requests": {
+          "memory": "8092M"
+        }
+      },
+      "cpu": {
+        "cores": 6,
+        "sockets": 1,
+        "threads": 1,
+        "model": "host-model"
+      },
+      "machine": {
+        "type": "q35"
+      },
+      "firmware": {
+        "uuid": "ca6a6bfa-9f48-5ed1-b2a4-ce5c32e042c4",
+        "bootloader": {
+          "efi": {
+            "secureBoot": false
+          }
+        }
+      },
+      "features": {
+        "acpi": {
+          "enabled": true
+        }
+      },
+      "devices": {
+        "disks": [
+          {
+            "name": "win11-c",
+            "disk": {
+              "bus": "virtio"
+            },
+            "bootOrder": 1
+          },
+          {
+            "name": "win11-j0",
+            "disk": {
+              "bus": "virtio"
+            }
+          },
+          {
+            "name": "win11-j1",
+            "disk": {
+              "bus": "virtio"
+            }
+          }
+        ],
+        "interfaces": [
+          {
+            "name": "default",
+            "bridge": {}
+          },
+          {
+            "name": "eth0",
+            "bridge": {}
+          }
+        ],
+        "inputs": [
+          {
+            "bus": "usb",
+            "type": "tablet",
+            "name": "tablet0"
+          }
+        ],
+        "gpus": [
+          {
+            "name": "GRID_P40_1Q",
+            "deviceName": "nvidia.com/GRID_P40-1Q",
+            "virtualGPUOptions": {
+              "display": {
+                "enabled": true,
+                "ramFB": {
+                  "enabled": true
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    "terminationGracePeriodSeconds": 30,
+    "volumes": [
+      {
+        "name": "win11-c",
+        "persistentVolumeClaim": {
+          "claimName": "win11-c"
+        }
+      },
+      {
+        "name": "win11-j0",
+        "persistentVolumeClaim": {
+          "claimName": "win11-j0"
+        }
+      },
+      {
+        "name": "win11-j1",
+        "persistentVolumeClaim": {
+          "claimName": "win11-j1"
+        }
+      }
+    ],
+    "networks": [
+      {
+        "name": "eth0",
+        "multus": {
+          "networkName": "br0"
+        }
+      },
+      {
+        "name": "default",
+        "pod": {}
+      }
+    ]
+  },
+  "status": {
+    "nodeName": "chimecho",
+    "conditions": [
+      {
+        "type": "Ready",
+        "status": "False",
+        "lastProbeTime": "2022-06-03T14:29:23Z",
+        "lastTransitionTime": "2022-06-03T14:29:23Z",
+        "reason": "GuestNotRunning",
+        "message": "Guest VM is not reported as running"
+      },
+      {
+        "type": "LiveMigratable",
+        "status": "False",
+        "lastProbeTime": null,
+        "lastTransitionTime": null,
+        "reason": "DisksNotLiveMigratable",
+        "message": "cannot migrate VMI: PVC win11-c is not shared, live migration requires that all PVCs must be shared (using ReadWriteMany access mode)"
+      }
+    ],
+    "phase": "Scheduled",
+    "phaseTransitionTimestamps": [
+      {
+        "phase": "Pending",
+        "phaseTransitionTimestamp": "2022-06-03T14:29:23Z"
+      },
+      {
+        "phase": "Scheduling",
+        "phaseTransitionTimestamp": "2022-06-03T14:29:23Z"
+      },
+      {
+        "phase": "Scheduled",
+        "phaseTransitionTimestamp": "2022-06-03T14:29:28Z"
+      }
+    ],
+    "guestOSInfo": {},
+    "migrationMethod": "BlockMigration",
+    "migrationTransport": "Unix",
+    "qosClass": "Burstable",
+    "activePods": {
+      "6a515c57-ad5f-4173-bdb0-3fd96f4d829c": "chimecho"
+    },
+    "volumeStatus": [
+      {
+        "name": "win11-c",
+        "target": "",
+        "persistentVolumeClaimInfo": {
+          "accessModes": [
+            "ReadWriteOnce"
+          ],
+          "volumeMode": "Block",
+          "capacity": {
+            "storage": "477Gi"
+          },
+          "requests": {
+            "storage": "512174850048"
+          },
+          "filesystemOverhead": "0"
+        }
+      },
+      {
+        "name": "win11-j0",
+        "target": "",
+        "persistentVolumeClaimInfo": {
+          "accessModes": [
+            "ReadWriteOnce"
+          ],
+          "volumeMode": "Block",
+          "capacity": {
+            "storage": "932Gi"
+          },
+          "requests": {
+            "storage": "1000727379968"
+          },
+          "filesystemOverhead": "0"
+        }
+      },
+      {
+        "name": "win11-j1",
+        "target": "",
+        "persistentVolumeClaimInfo": {
+          "accessModes": [
+            "ReadWriteOnce"
+          ],
+          "volumeMode": "Block",
+          "capacity": {
+            "storage": "932Gi"
+          },
+          "requests": {
+            "storage": "1000727379968"
+          },
+          "filesystemOverhead": "0"
+        }
+      }
+    ],
+    "virtualMachineRevisionName": "revision-start-vm-ba6dede7-5f43-433e-b0ba-8cfb571d99d1-92",
+    "runtimeUser": 0
+  }
+}
